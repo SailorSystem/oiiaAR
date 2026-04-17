@@ -27,18 +27,20 @@
   <audio id="audio" src="oiiaioiiiai.mp3" loop></audio>
 
   <!-- MODELO 3D -->
-  <model-viewer id="mv"
+  <model-viewer
     src="oiiaioooooiai_cat.glb"
-    autoplay
-    animation-loop
     ar
     ar-modes="scene-viewer webxr"
+    ar-placement="floor"
     camera-controls
+    autoplay
+    animation-loop
     exposure="1"
-    environment-image="neutral"
     shadow-intensity="1"
-    disable-zoom>
+    scale="1 1 1"
+  >
   </model-viewer>
+
 
 <script>
   const audio = document.getElementById("audio");
