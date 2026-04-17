@@ -5,47 +5,76 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AR Demo</title>
 
-  <!-- Model Viewer (Google) -->
+  <!-- Librería model-viewer -->
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
   <style>
     body {
       margin: 0;
-      background: #000;
+      background: black; /* fondo negro en escritorio */
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       height: 100vh;
     }
     model-viewer {
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
+      background-color: black;
     }
   </style>
 </head>
 
 <body>
 
-  <model-viewer 
-    src="oiiaioooooiai_cat.glb"
-    ar
-    ar-modes="scene-viewer quick-look webxr"
-    camera-controls
-    autoplay
-    shadow-intensity="1"
-    exposure="1"
-    environment-image="neutral"
-    alt="Modelo 3D en AR">
+  <!-- Visor 3D + AR -->
+  <model-viewer src="oiiaioooooiai_cat.glb"
+                alt="Modelo 3D"
+                camera-controls
+                auto-rotate
+                ar
+                ar-modes="scene-viewer webxr quick-look"
+                environment-image="neutral"
+                exposure="1"
+                style="background-color:black">
+
+    <!-- Botón AR personalizado (solo aparece en móvil) -->
+    <button slot="ar-button" style="
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 22px;
+      background: white;
+      border-radius: 30px;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      display: none;
+    ">
+      Ver en AR
+    </button>
+
   </model-viewer>
 
-  <audio id="audio" src="oiiaioooooiai_audio.mp3"></audio>
+  <!-- Audio -->
+  <audio id="audio" src="oiiaioiiiai.mp3"></audio>
 
   <script>
-    // Reproducir audio cuando el usuario toca la pantalla (requisito de iOS)
-    document.addEventListener("click", () => {
-      const audio = document.getElementById("audio");
+    // Reproducir audio cuando el modelo esté listo
+    const mv = document.querySelector("model-viewer");
+    const audio = document.getElementById("audio");
+
+    mv.addEventListener("load", () => {
+      // Safari bloquea autoplay, por eso esto solo funciona en otros navegadores
       audio.play().catch(() => {});
     });
+
+    // Mostrar botón AR solo en móvil
+    const arButton = document.querySelector("button[slot='ar-button']");
+    if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      arButton.style.display = "block";
+    }
   </script>
 
 </body>
